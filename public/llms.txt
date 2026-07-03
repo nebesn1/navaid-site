@@ -1,0 +1,38 @@
+# Navaid Space
+
+Navaid Space is the official website for Navaid Space, a space for mutual aid and collaboration.
+
+The site includes multilingual pages in Chinese and English, including history, blog posts, and project updates.
+
+## Main Pages
+
+- [Chinese Home](https://navaid.space/zh/)
+- [English Home](https://navaid.space/en/)
+- [Chinese Blog](https://navaid.space/zh/blog/)
+- [English Blog](https://navaid.space/en/blog/)
+- [Chinese About](https://navaid.space/zh/about/)
+- [English About](https://navaid.space/en/about/)
+- [Chinese History](https://navaid.space/zh/history/)
+- [English History](https://navaid.space/en/history/)
+
+## Content Notes
+
+The website content is available in Chinese and English.
+
+Chinese pages are under `/zh/`.
+
+English pages are under `/en/`.
+
+Blog posts are published under `/zh/blog/` and `/en/blog/`.
+
+## Licensing
+
+Code in this repository is licensed under the MIT License.
+
+Website content, including blog posts, page text, images, and other non-code materials, is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0), unless otherwise noted.
+
+## Preferred Citation
+
+When referencing this website, cite it as:
+
+Navaid Space — https://navaid.space/

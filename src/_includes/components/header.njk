@@ -1,0 +1,60 @@
+{% set currentLang = lang or site.defaultLang %}
+{% set currentUrl = page.url or "/" %}
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-logo" href="/{{ currentLang }}/">{{ "site.name" | t(currentLang) }}</a>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="site-nav-link" href="/{{ currentLang }}/">{{ "nav.home" | t(currentLang) }}</a>
+      <a class="site-nav-link" href="/{{ currentLang }}/blog/">{{ "nav.blog" | t(currentLang) }}</a>
+      <a class="site-nav-link" href="/{{ currentLang }}/history/">{{ "nav.history" | t(currentLang) }}</a>
+      <a class="site-nav-link" href="/{{ currentLang }}/about/">{{ "nav.about" | t(currentLang) }}</a>
+    </nav>
+
+    <div class="site-actions">
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        data-light-label="{{ "theme.light" | t(currentLang) }}"
+        data-dark-label="{{ "theme.dark" | t(currentLang) }}"
+        aria-label="{{ "theme.dark" | t(currentLang) }}"
+      >
+        🌙
+      </button>
+
+      <label class="language-switcher" for="language-select">
+        <span class="sr-only">{{ "language.label" | t(currentLang) }}</span>
+        <select class="language-select" id="language-select" name="language">
+          {% for language in site.languages %}
+            {% set languageUrl = currentUrl | replace("/" + currentLang + "/", "/" + language + "/") %}
+            {% set languageLabelKey = "lang." + language %}
+            {% if languageUrl == currentUrl and language != currentLang %}
+              {% set languageUrl = "/" + language + "/" %}
+            {% endif %}
+            <option value="{{ languageUrl }}" {% if language == currentLang %}selected{% endif %}>
+              {{ languageLabelKey | t(currentLang) }}
+            </option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <button
+        class="mobile-menu-toggle"
+        type="button"
+        aria-controls="mobile-menu-panel"
+        aria-expanded="false"
+      >
+        {{ "menu.label" | t(currentLang) }}
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-menu-panel" id="mobile-menu-panel" aria-label="Mobile navigation" hidden>
+    <a class="site-nav-link" href="/{{ currentLang }}/">{{ "nav.home" | t(currentLang) }}</a>
+    <a class="site-nav-link" href="/{{ currentLang }}/blog/">{{ "nav.blog" | t(currentLang) }}</a>
+    <a class="site-nav-link" href="/{{ currentLang }}/history/">{{ "nav.history" | t(currentLang) }}</a>
+    <a class="site-nav-link" href="/{{ currentLang }}/about/">{{ "nav.about" | t(currentLang) }}</a>
+  </nav>
+</header>
