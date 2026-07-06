@@ -2,6 +2,7 @@
 {% set currentLang = lang or site.defaultLang %}
 {% set siteName = "site.name" | t(currentLang) %}
 {% set metaDescription = description or ("site.description" | t(currentLang)) %}
+{% set isBlogPost = tags == "blog" or (tags and ("blog" in tags)) %}
 <html lang="{{ currentLang }}">
   <head>
     <meta charset="utf-8">
@@ -22,7 +23,11 @@
   </head>
   <body>
     {% include "components/header.njk" %}
-    <main class="site-main">
+    <main class="site-main"{% if isBlogPost %} data-pagefind-body{% endif %}>
+      {% if isBlogPost %}
+        <span hidden data-pagefind-filter="lang:{{ currentLang }}"></span>
+        <span hidden data-pagefind-filter="section:blog"></span>
+      {% endif %}
       {{ content | safe }}
     </main>
     <footer class="site-footer">
@@ -38,6 +43,7 @@
     <script src="/assets/js/theme.js" defer></script>
     <script src="/assets/js/language-switcher.js" defer></script>
     <script src="/assets/js/mobile-menu.js" defer></script>
+    <script src="/assets/js/pagefind-blog-search.js" defer></script>
     <script src="/assets/js/console-log.js" defer></script>
   </body>
 </html>

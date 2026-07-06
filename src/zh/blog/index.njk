@@ -2,13 +2,30 @@
 title: 博客
 layout: layouts/base.njk
 description: 博客文章。
+pagination:
+  data: collections.zhBlog
+  size: 10
+  alias: posts
+permalink: "/zh/blog/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber + 1 }}/{% endif %}index.html"
 ---
 
 <h1>{{ "nav.blog" | t(lang) }}</h1>
 
-{% set posts = collections.blog | byLang(lang) | reverse %}
-{% if posts.length %}
-  <ul class="post-list">
+<div class="blog-search" data-pagefind-search data-lang="zh" data-no-results="没有找到相关文章。">
+  <label for="blog-search-input" class="sr-only">搜索文章</label>
+  <input
+    id="blog-search-input"
+    class="blog-search-input"
+    type="search"
+    placeholder="搜索文章..."
+    autocomplete="off"
+  >
+  <div id="pagefind-results" class="pagefind-results" aria-live="polite" hidden></div>
+  <p id="pagefind-empty" class="search-empty" hidden>没有找到相关文章。</p>
+</div>
+
+<ul class="post-list" id="static-post-list">
+  {% if posts.length %}
     {% for post in posts %}
       <li class="post-list__item">
         <article>
@@ -23,7 +40,31 @@ description: 博客文章。
         </article>
       </li>
     {% endfor %}
-  </ul>
-{% else %}
-  <p>暂无文章。</p>
+  {% else %}
+    <li class="search-empty">暂无文章。</li>
+  {% endif %}
+</ul>
+
+{% set currentPage = pagination.pageNumber + 1 %}
+{% set totalPages = pagination.pages.length %}
+{% if totalPages > 1 %}
+  <nav class="pagination" aria-label="博客分页">
+    {% if pagination.pageNumber > 0 %}
+      {% if pagination.pageNumber == 1 %}
+        <a class="pagination-link" href="/zh/blog/">上一页</a>
+      {% else %}
+        <a class="pagination-link" href="/zh/blog/{{ pagination.pageNumber }}/">上一页</a>
+      {% endif %}
+    {% else %}
+      <span class="pagination-disabled">上一页</span>
+    {% endif %}
+
+    <span class="pagination-status">第 {{ currentPage }} 页 / 共 {{ totalPages }} 页</span>
+
+    {% if currentPage < totalPages %}
+      <a class="pagination-link" href="/zh/blog/{{ currentPage + 1 }}/">下一页</a>
+    {% else %}
+      <span class="pagination-disabled">下一页</span>
+    {% endif %}
+  </nav>
 {% endif %}

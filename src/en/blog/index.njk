@@ -2,13 +2,30 @@
 title: Blog
 layout: layouts/base.njk
 description: Blog posts.
+pagination:
+  data: collections.enBlog
+  size: 10
+  alias: posts
+permalink: "/en/blog/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber + 1 }}/{% endif %}index.html"
 ---
 
 <h1>{{ "nav.blog" | t(lang) }}</h1>
 
-{% set posts = collections.blog | byLang(lang) | reverse %}
-{% if posts.length %}
-  <ul class="post-list">
+<div class="blog-search" data-pagefind-search data-lang="en" data-no-results="No matching posts found.">
+  <label for="blog-search-input" class="sr-only">Search posts</label>
+  <input
+    id="blog-search-input"
+    class="blog-search-input"
+    type="search"
+    placeholder="Search posts..."
+    autocomplete="off"
+  >
+  <div id="pagefind-results" class="pagefind-results" aria-live="polite" hidden></div>
+  <p id="pagefind-empty" class="search-empty" hidden>No matching posts found.</p>
+</div>
+
+<ul class="post-list" id="static-post-list">
+  {% if posts.length %}
     {% for post in posts %}
       <li class="post-list__item">
         <article>
@@ -23,7 +40,31 @@ description: Blog posts.
         </article>
       </li>
     {% endfor %}
-  </ul>
-{% else %}
-  <p>No posts yet.</p>
+  {% else %}
+    <li class="search-empty">No posts yet.</li>
+  {% endif %}
+</ul>
+
+{% set currentPage = pagination.pageNumber + 1 %}
+{% set totalPages = pagination.pages.length %}
+{% if totalPages > 1 %}
+  <nav class="pagination" aria-label="Blog pagination">
+    {% if pagination.pageNumber > 0 %}
+      {% if pagination.pageNumber == 1 %}
+        <a class="pagination-link" href="/en/blog/">Previous</a>
+      {% else %}
+        <a class="pagination-link" href="/en/blog/{{ pagination.pageNumber }}/">Previous</a>
+      {% endif %}
+    {% else %}
+      <span class="pagination-disabled">Previous</span>
+    {% endif %}
+
+    <span class="pagination-status">Page {{ currentPage }} of {{ totalPages }}</span>
+
+    {% if currentPage < totalPages %}
+      <a class="pagination-link" href="/en/blog/{{ currentPage + 1 }}/">Next</a>
+    {% else %}
+      <span class="pagination-disabled">Next</span>
+    {% endif %}
+  </nav>
 {% endif %}

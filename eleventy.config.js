@@ -80,6 +80,20 @@ export default function (eleventyConfig) {
     return collection.filter((item) => item.data?.lang === lang || item.data?.page?.lang === lang);
   });
 
+  eleventyConfig.addCollection("zhBlog", function (collectionApi) {
+    return collectionApi
+      .getFilteredByTag("blog")
+      .filter((item) => item.data.lang === "zh")
+      .sort((a, b) => b.date - a.date);
+  });
+
+  eleventyConfig.addCollection("enBlog", function (collectionApi) {
+    return collectionApi
+      .getFilteredByTag("blog")
+      .filter((item) => item.data.lang === "en")
+      .sort((a, b) => b.date - a.date);
+  });
+
   eleventyConfig.addFilter("htmlDateString", (date) => {
     return normalizeDate(date).toISOString().slice(0, 10);
   });

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy",
+    "build:eleventy": "eleventy",
+    "build:pagefind": "pagefind --site _site",
+    "build": "npm run build:eleventy && npm run build:pagefind",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,7 +15,8 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.6"
+    "@11ty/eleventy": "^3.1.6",
+    "pagefind": "^1.5.2"
   },
   "dependencies": {
     "pangu": "^7.2.1"
